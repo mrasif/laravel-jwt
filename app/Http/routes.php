@@ -18,5 +18,9 @@ Route::get('/', function () {
 Route::post('auth/register', 'UserController@register');
 Route::post('auth/login', 'UserController@login');
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('api/user', 'UserController@getAuthUser');
+		Route::get('api/user', 'UserController@getAuthUser');
+		#Route::resource('api/note','NoteController');
+		Route::get('api/note.json','NoteController@index');
+		Route::post('api/create_note.json','NoteController@store');
+		Route::post('api/delete.json','NoteController@destroy');
 });
