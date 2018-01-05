@@ -82,9 +82,17 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+		$user=JWTAuth::toUser($request->token);
+		$note=Note::where('id',$request->input('id'))->update([
+			'title'=>$request->input('title'),
+			'body'=>$request->input('body')
+		]);
+		if($note){
+				return response()->json(['status'=>true]);
+		}
+		return response()->json(['status'=>false]);
     }
 
     /**

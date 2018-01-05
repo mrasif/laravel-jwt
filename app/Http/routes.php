@@ -15,12 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('auth/register', 'UserController@register');
-Route::post('auth/login', 'UserController@login');
+Route::post('auth/register.json', 'UserController@register');
+Route::post('auth/login.json', 'UserController@login');
 Route::group(['middleware' => 'jwt.auth'], function () {
-		Route::get('api/user', 'UserController@getAuthUser');
-		#Route::resource('api/note','NoteController');
-		Route::get('api/note.json','NoteController@index');
-		Route::post('api/create_note.json','NoteController@store');
-		Route::post('api/delete.json','NoteController@destroy');
+		Route::group(['prefix'=>'api'], function(){
+			Route::get('/user', 'UserController@getAuthUser');
+			#Route::resource('api/note','NoteController');
+			Route::get('/note.json','NoteController@index');
+			Route::post('/create_note.json','NoteController@store');
+			Route::post('/delete.json','NoteController@destroy');
+			Route::post('/update.json','NoteController@update');
+		});
 });
